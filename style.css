@@ -6,8 +6,8 @@
 :root {
   --ink: #16161a;          /* main text color */
   --muted: #6b6b76;        /* quieter text */
-  --accent: #2f4fd8;       /* links and highlights */
-  --paper: #fdfdfb;        /* page background */
+  --accent: #df71c9;       /* links and highlights */
+  --paper: #fffff3;        /* page background */
   --line: #e4e4e0;         /* borders */
 }
 
