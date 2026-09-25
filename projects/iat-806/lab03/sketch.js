@@ -1,12 +1,11 @@
 console.log("I believe");
 
-let circleX = 150;
-let circleY = 150;
+let circleX = 50;
+let circleY = 50;
 let speedX = 5;
 let speedY = 5;
 let size = 100;
 let radius = size / 2;
-let passed = true;
 let sizeInceremnent = 1;
 let color;
 let rightColor = "red";
@@ -20,8 +19,6 @@ function setup() {
 function draw() {
   background(20);
   fill(47, 79, 216);
-  circleY = height / 2;
-  console.log(circleX);
   circle(circleX, circleY, size);
   circleX = circleX + speedX;
   circleY = circleY + speedY;
@@ -29,7 +26,7 @@ function draw() {
   size = size + sizeInceremnent;
   radius = size / 2;
 
-  if (circleX >= width - radius || circleX < 0 + radius) {
+  if (circleX >= width - radius || circleX < radius) {
     speedX = speedX * -1;
     sizeInceremnent = sizeInceremnent * -1;
   }
