@@ -18,7 +18,14 @@ function setup() {
 
 function draw() {
   background(20);
-  fill(47, 79, 216);
+
+  if (circleX > width / 2) {
+    color = rightColor;
+  } else {
+    color = leftColor;
+  }
+  fill(color);
+
   circle(circleX, circleY, size);
   circleX = circleX + speedX;
   circleY = circleY + speedY;
@@ -33,12 +40,6 @@ function draw() {
 
   if (circleY >= height - radius || circleY < radius) {
     speedY = speedY * -1;
-  }
-
-  if (circleX > width / 2) {
-    color = rightColor;
-  } else {
-    color = leftColor;
   }
 }
 
