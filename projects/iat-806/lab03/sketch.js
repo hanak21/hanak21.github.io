@@ -12,16 +12,13 @@ let rightColor = "black";
 let leftColor = "white";
 let backgroundColors = ["purple", "pink"];
 
-//test
-
 function setup() {
   const canvas = createCanvas(800, 600);
-
 }
 
 function draw() {
 
-    // change the color of the background every 2 seconds between pink and purple
+  // change the color of the background every 2 seconds between pink and purple
   let colorIndex = floor(millis() / 2000) % backgroundColors.length;
   background(backgroundColors[colorIndex]);
 
@@ -47,10 +44,13 @@ function draw() {
   if (circleY >= height - radius || circleY < radius) {
     speedY = speedY * -1;
   }
-
-  // add moving rectangle
 }
 
+// the ball will speed up and reverse direction when clicked
+
 function mousePressed() {
-  background(100, 40, 40);
+  speedX = speedX * -1.2;
+  speedY = speedY * -1.2;
+
+  
 }
