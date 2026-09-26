@@ -1,21 +1,26 @@
-// An example sketch, so the page has something to show.
-// Delete all of this and write your own.
+console.log("I believe in me");
 
 function setup() {
-  const canvas = createCanvas(600, 400);
-
-  // Puts the canvas inside the <div id="sketch-holder"> in index.html,
-  // instead of dropping it at the bottom of the page.
-  canvas.parent("sketch-holder");
+  createCanvas(800, 600);
 }
 
 function draw() {
-  background(253, 253, 251);
-
-  noStroke();
-  fill(47, 79, 216);
-  circle(width / 2, height / 2, 160);
-
-  fill(255, 180, 60);
-  circle(mouseX, mouseY, 40);
+  background(20);
+  fill(222, 220, 60);
+  circle(400, 233, 100);
+  fill(312, 30, 60);
+  rect(350, 200, 100, 10);
+  fill(22, 20, 70);
+  rect(355, 420, 45, 110);
+  rect(405, 420, 45, 110);
+  fill(422, 30, 90);
+  rect(220, 286, 140, 50);
+  rect(450, 286, 140, 50);
+  rect(352, 286, 100, 150);
+  fill(100, 40, 86);
+  ellipse(375, 530, 50, 21);
+  ellipse(430, 530, 50, 21);
+  fill(222, 220, 60);
+  ellipse(215, 310, 20, 51);
+  ellipse(595, 310, 20, 50);
 }
