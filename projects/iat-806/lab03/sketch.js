@@ -8,16 +8,22 @@ let size = 100;
 let radius = size / 2;
 let sizeInceremnent = 1;
 let color;
-let rightColor = "red";
-let leftColor = "blue";
+let rightColor = "black";
+let leftColor = "white";
+let backgroundColors = ["purple", "pink"];
+
+//test
 
 function setup() {
   const canvas = createCanvas(800, 600);
-  //circleX = 600;
+
 }
 
 function draw() {
-  background(20);
+
+    // change the color of the background every 2 seconds between pink and purple
+  let colorIndex = floor(millis() / 2000) % backgroundColors.length;
+  background(backgroundColors[colorIndex]);
 
   if (circleX > width / 2) {
     color = rightColor;
@@ -41,8 +47,10 @@ function draw() {
   if (circleY >= height - radius || circleY < radius) {
     speedY = speedY * -1;
   }
+
+  // add moving rectangle
 }
 
 function mousePressed() {
-  circleX = 0;
+  background(100, 40, 40);
 }
