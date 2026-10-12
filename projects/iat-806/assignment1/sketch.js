@@ -84,7 +84,7 @@ function draw() {
   textSize(15);
   text("Press A and hold to see the answer.", 280, 140);
   textSize(15);
-  text("Remember: count ALL fireflies on screen.", 260, 390);
+  text("Remember: count ALL fireflies on screen, in and outside the jar.", 190, 390);
 
   // circle changes color when key is pressed
   noStroke();
