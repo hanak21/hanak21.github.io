@@ -13,7 +13,7 @@ function draw() {
   circle(mouseX, mouseY, 10, 10);
   stroke("white");
   strokeWeight(1);
-  
+
   line(210, 120, 565, 120);
   noStroke();
 
@@ -77,16 +77,11 @@ function draw() {
 
   colorIndex = (colorIndex + 1) % backColors.length;
 
-  //text
+  //text on screen
   noStroke();
   fill("white");
   textSize(18);
   text("These fireflies are a colourful bunch.", 200, 350);
-
-  // added line to highlight the main prompt
-
-  //text under the jar and answer
-
   textSize(22);
   text("How many fireflies are on screen?", 230, 110);
   textSize(15);
@@ -94,10 +89,10 @@ function draw() {
   textSize(15);
   text("Remember: count ALL fireflies on screen.", 300, 390);
 
-  // circle answer
+  // circle changes color when key is pressed
   noStroke();
   if (keyIsPressed && (key === "a" || key === "A")) {
-    fill("gray");
+    fill("#95114a");
   } else {
     fill("yellow");
   }
@@ -107,9 +102,6 @@ function draw() {
   if (keyIsPressed && (key === "a" || key === "A")) {
     fill("black");
     textSize(24);
-    let txt = "7";
-    let txtW = textWidth(txt);
-    let txtH = textSize();
-    text(txt, 440 - txtW / 2, 260 - txtH / 2);
+    text("7", 435, 248);
   }
 }
