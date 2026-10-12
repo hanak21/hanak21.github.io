@@ -1,15 +1,29 @@
+let backColors = ["#95114a", "#07ee77", "#e8e806"];
+let colorIndex = 0;
+
 function setup() {
   createCanvas(800, 600);
   frameRate(5);
 }
 
 function draw() {
-  background("#b5aaf7");
+  background("black");
 
-  stroke("black");
+  //mouse that is a firefly
+  circle(mouseX, mouseY, 10, 10);
+  stroke("white");
+  strokeWeight(1);
+  
+  line(210, 120, 565, 120);
+  noStroke();
+
+  // triangle(460, 235, 458, 120, 486, 107);
+
+  stroke("white");
   noFill();
   strokeWeight(1);
 
+  // FIREFLIES FLY AROUND
   //point 1 - random coordinates
   let x = random(200, 300);
   let y = random(200, 300);
@@ -27,12 +41,14 @@ function draw() {
   let d = random(200, 300);
 
   //firefly jar + if/else to make the jar darken
-  strokeWeight(2);
+  /*strokeWeight(2);
   if (mouseIsPressed) {
     fill("gray");
   } else {
     noFill();
   }
+    */
+
   rect(200, 190, 100, 115);
 
   //firefly jar lid
@@ -40,42 +56,43 @@ function draw() {
   rect(200, 175, 100, 15);
 
   // point 1.
-  stroke("black");
+  /*
+  stroke("YELLOW");
   strokeWeight(5);
   if (mouseIsPressed) {
-    stroke("yellow");
+    stroke("white");
   } else {
-    stroke("black");
+    stroke("#ffd502");
   }
+    */
+
+  stroke(backColors[colorIndex]);
+  strokeWeight(7);
+
   point(x, y);
-  //point 2
   point(r, s);
-  //point 3
   point(h, k);
-  //point 3
   point(a, b);
-  //point 3
   point(c, d);
+
+  colorIndex = (colorIndex + 1) % backColors.length;
 
   //text
   noStroke();
-  fill("black");
+  fill("white");
   textSize(18);
-  text("Click and hold to see the fireflies glow in the dark.", 200, 350);
+  text("These fireflies are a colourful bunch.", 200, 350);
 
   // added line to highlight the main prompt
-
-  stroke("black");
-  strokeWeight(1);
-  line(210, 120, 565, 120);
-  noStroke();
 
   //text under the jar and answer
 
   textSize(22);
-  text("How many fireflies are in the jar?", 230, 110);
+  text("How many fireflies are on screen?", 230, 110);
   textSize(15);
-  text("Press A see the answer.", 300, 140);
+  text("Press A and hold to see the answer.", 300, 140);
+  textSize(15);
+  text("Remember: count ALL fireflies on screen.", 300, 390);
 
   // circle answer
   noStroke();
@@ -90,11 +107,9 @@ function draw() {
   if (keyIsPressed && (key === "a" || key === "A")) {
     fill("black");
     textSize(24);
-
-    // keeping "5" inside the circle
-    let txt = "5";
+    let txt = "7";
     let txtW = textWidth(txt);
-    let txtH = textSize(); // approximate height
+    let txtH = textSize();
     text(txt, 440 - txtW / 2, 260 - txtH / 2);
   }
 }
