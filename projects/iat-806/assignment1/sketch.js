@@ -1,9 +1,19 @@
 let backColors = ["#95114a", "#07ee77", "#e8e806"];
 let colorIndex = 0;
 
+let jarNum = 5;
+let mouseAnswer = 2;
+
 function setup() {
   createCanvas(800, 600);
   frameRate(5);
+}
+
+//my own function to calculate the number of fireflies (a spoiler!)
+
+function fireflyAnswer() {
+  let answer = jarNum + mouseAnswer;
+  return answer;
 }
 
 function draw() {
@@ -14,10 +24,10 @@ function draw() {
   stroke("white");
   strokeWeight(1);
 
-  line(210, 120, 565, 120);
+  line(210, 120, 575, 120);
   noStroke();
 
-  // triangle(460, 235, 458, 120, 486, 107);
+  // jar design
 
   stroke("white");
   noFill();
@@ -40,14 +50,7 @@ function draw() {
   let c = random(200, 300);
   let d = random(200, 300);
 
-  //firefly jar + if/else to make the jar darken
-  /*strokeWeight(2);
-  if (mouseIsPressed) {
-    fill("gray");
-  } else {
-    noFill();
-  }
-    */
+   //firefly jar
 
   rect(200, 190, 100, 115);
 
@@ -55,25 +58,19 @@ function draw() {
 
   rect(200, 175, 100, 15);
 
-  // point 1.
-  /*
-  stroke("YELLOW");
-  strokeWeight(5);
-  if (mouseIsPressed) {
-    stroke("white");
-  } else {
-    stroke("#ffd502");
-  }
-    */
+  //making sure the fireflies change color
 
   stroke(backColors[colorIndex]);
   strokeWeight(7);
 
+  // fireflies defined
   point(x, y);
   point(r, s);
   point(h, k);
   point(a, b);
   point(c, d);
+
+    //making sure the fireflies change color and it loops back to beginning of array
 
   colorIndex = (colorIndex + 1) % backColors.length;
 
@@ -81,13 +78,13 @@ function draw() {
   noStroke();
   fill("white");
   textSize(18);
-  text("These fireflies are a colourful bunch.", 200, 350);
+  text("These fireflies are a colourful bunch.", 250, 350);
   textSize(22);
   text("How many fireflies are on screen?", 230, 110);
   textSize(15);
-  text("Press A and hold to see the answer.", 300, 140);
+  text("Press A and hold to see the answer.", 280, 140);
   textSize(15);
-  text("Remember: count ALL fireflies on screen.", 300, 390);
+  text("Remember: count ALL fireflies on screen.", 260, 390);
 
   // circle changes color when key is pressed
   noStroke();
@@ -99,9 +96,9 @@ function draw() {
   circle(440, 240, 50);
 
   // number appears when A is pressed
-  if (keyIsPressed && (key === "a" || key === "A")) {
-    fill("black");
-    textSize(24);
-    text("7", 435, 248);
-  }
+if (keyIsPressed && (key === "a" || key === "A")) {
+  fill("black");
+  textSize(24);
+  text(fireflyAnswer(), 435, 248);
+}
 }
