@@ -11,9 +11,6 @@ let colWidth;
 let rowHeight;
 
 //dancers
-let x = i * colWidth + colWidth / 2;
-let y = j * rowHeight + rowHeight / 2;
-let d = dist(x, y, mouseX, mouseY);
 
 // 2D arrays: one color and one speed for every cell in the grid
 let colors = [];
@@ -41,21 +38,31 @@ async function setup() {
     frames.push(await loadImage(fileName));
   }
 }
-
 function draw() {
   background(120);
-  if (mouseX < width) {
-    numCols = Math.floor(map(mouseX, 0, width, 2, 20));
-    // dist the mouse position and the position of the dancing profs
-    // in the grid, and then use that number to map to the speed.
-    colWidth = width / numCols;
-  }
+
+  colWidth = width / numCols;
+  rowHeight = height / numRows;
+
+  let maxDist = dist(0, 0, width, height);
+
+  /* if (mouseX < width) {
+   numCols = Math.floor(map(mouseX, 0, width, 2, 20));
+   // dist the mouse position and the position of the dancing profs
+   // in the grid, and then use that number to map to the speed.
+   colWidth = width / numCols;
+ } */
 
   for (let i = 0; i < numCols; i++) {
     for (let j = 0; j < numRows; j++) {
+      let x = i * colWidth + colWidth / 2;
+      let y = j * rowHeight + rowHeight / 2;
+      let d = dist(x, y, mouseX, mouseY);
+      let speed = speeds[i][j] * map(d, 0, maxDist, 0.5, 3);
+      speed = max(speed, 0.1);
       fill(colors[i][j][0], colors[i][j][1], colors[i][j][2], 120);
       rect(i * colWidth, j * rowHeight, colWidth, rowHeight);
-      animate(frames, speeds[i][j], i * colWidth, j * rowHeight, colWidth);
+      animate(frames, speed, i * colWidth, j * rowHeight, colWidth);
     }
   }
 }
@@ -80,4 +87,5 @@ function getFrameIndex(speed) {
   let index = slowFrame % frames.length;
 
   return index;
+
 }
