@@ -11,9 +11,6 @@ let numRows = 10;
 let colWidth;
 let rowHeight;
 
-
-//dancers
-
 // 2D arrays: one color and one speed for every cell in the grid
 let colors = [];
 let speeds = [];
@@ -32,7 +29,6 @@ async function setup() {
       speeds[i][j] = random(1, 10);
     }
   }
-  
 
   rowHeight = height / numRows;
 
@@ -44,11 +40,8 @@ async function setup() {
     let fileName = "jump_frames/jump" + i + ".png";
     frames2.push(await loadImage(fileName));
   }
-
-  
-
-
 }
+
 function draw() {
   background(120);
 
@@ -57,12 +50,12 @@ function draw() {
 
   let maxDist = dist(0, 0, width, height);
 
-  /* if (mouseX < width) {
+if (mouseX < width) {
    numCols = Math.floor(map(mouseX, 0, width, 2, 20));
    // dist the mouse position and the position of the dancing profs
    // in the grid, and then use that number to map to the speed.
    colWidth = width / numCols;
- } */
+ }
 
   for (let i = 0; i < numCols; i++) {
     for (let j = 0; j < numRows; j++) {
@@ -74,23 +67,21 @@ function draw() {
       fill(colors[i][j][0], colors[i][j][1], colors[i][j][2], 120);
       rect(i * colWidth, j * rowHeight, colWidth, rowHeight);
 
-    let danceFrames;
-if ((i + j) % 2 === 0) {
-  danceFrames = frames;
-} else {
-  danceFrames = frames2;
-}
+      let danceFrames;
+      if ((i + j) % 2 === 0) {
+        danceFrames = frames;
+      } else {
+        danceFrames = frames2;
+      }
       animate(danceFrames, speed, i * colWidth, j * rowHeight, colWidth);
     }
-  } 
+  }
+
 }
-
-
-
 
 // draws one dancer: which poses, how fast, where, and how big
 function animate(frames, speed, xPosition, yPosition, imageWidth, imageHeight) {
-   let index = getFrameIndex(frames, speed);
+  let index = getFrameIndex(frames, speed);
   let currentFrame = frames[index];
   let origWidth = currentFrame.width;
   let origHeight = currentFrame.height;
@@ -98,7 +89,7 @@ function animate(frames, speed, xPosition, yPosition, imageWidth, imageHeight) {
     let scale = imageWidth / origWidth;
     imageHeight = scale * origHeight;
   }
-  
+
   // TODO, complete the keeping scale correct logic.
   image(currentFrame, xPosition, yPosition, imageWidth, imageHeight);
 }
@@ -109,5 +100,4 @@ function getFrameIndex(frames, speed) {
   let index = slowFrame % frames.length;
 
   return index;
-
 }
