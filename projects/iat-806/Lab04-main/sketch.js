@@ -4,11 +4,13 @@
 let frames = []; // the 8 dance poses
 let frames2 = []; // TODO: load the jump poses into this array
 let numFrames = 8;
+let jumpFrames = 4;
 
 let numCols = 20;
 let numRows = 10;
 let colWidth;
 let rowHeight;
+
 
 //dancers
 
@@ -30,6 +32,7 @@ async function setup() {
       speeds[i][j] = random(1, 10);
     }
   }
+  
 
   rowHeight = height / numRows;
 
@@ -37,6 +40,14 @@ async function setup() {
     let fileName = "dance_frames/dance" + i + ".png";
     frames.push(await loadImage(fileName));
   }
+  for (let i = 0; i < jumpFrames; i++) {
+    let fileName = "jump_frames/jump" + i + ".png";
+    frames2.push(await loadImage(fileName));
+  }
+
+  
+
+
 }
 function draw() {
   background(120);
@@ -62,14 +73,24 @@ function draw() {
       speed = max(speed, 0.1);
       fill(colors[i][j][0], colors[i][j][1], colors[i][j][2], 120);
       rect(i * colWidth, j * rowHeight, colWidth, rowHeight);
-      animate(frames, speed, i * colWidth, j * rowHeight, colWidth);
-    }
-  }
+
+    let danceFrames;
+if ((i + j) % 2 === 0) {
+  danceFrames = frames;
+} else {
+  danceFrames = frames2;
 }
+      animate(danceFrames, speed, i * colWidth, j * rowHeight, colWidth);
+    }
+  } 
+}
+
+
+
 
 // draws one dancer: which poses, how fast, where, and how big
 function animate(frames, speed, xPosition, yPosition, imageWidth, imageHeight) {
-  let index = getFrameIndex(speed);
+   let index = getFrameIndex(frames, speed);
   let currentFrame = frames[index];
   let origWidth = currentFrame.width;
   let origHeight = currentFrame.height;
@@ -77,12 +98,13 @@ function animate(frames, speed, xPosition, yPosition, imageWidth, imageHeight) {
     let scale = imageWidth / origWidth;
     imageHeight = scale * origHeight;
   }
+  
   // TODO, complete the keeping scale correct logic.
   image(currentFrame, xPosition, yPosition, imageWidth, imageHeight);
 }
 
 // which pose to show right now. speed = draw-frames per pose: smaller = faster
-function getFrameIndex(speed) {
+function getFrameIndex(frames, speed) {
   let slowFrame = Math.floor(frameCount / speed);
   let index = slowFrame % frames.length;
 
