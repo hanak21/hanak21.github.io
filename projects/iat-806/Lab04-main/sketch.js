@@ -10,6 +10,11 @@ let numRows = 10;
 let colWidth;
 let rowHeight;
 
+//dancers
+let x = i * colWidth + colWidth / 2;
+let y = j * rowHeight + rowHeight / 2;
+let d = dist(x, y, mouseX, mouseY);
+
 // 2D arrays: one color and one speed for every cell in the grid
 let colors = [];
 let speeds = [];
