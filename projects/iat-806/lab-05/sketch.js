@@ -32,6 +32,8 @@ function setup() {
 function draw() {
   background(120);
 
+   
+
   // they are the same, written in different ways.
   //   for (let i=0; i<numBalls; i++) {
   //     balls[i].move();
@@ -49,6 +51,7 @@ function draw() {
     // ball.changeSize();
     // ball.show();
     ball.change(2);
+
   }
 }
 
@@ -83,9 +86,9 @@ class Ball {
 
     this.stayOnCanvas();
     // TODO: call your two new methods here, before show().
-    this.mouseColor(10);
+    this.mouseColor(1);
     this.fall(0.2);
-
+    
     this.show();
   }
 
@@ -111,7 +114,7 @@ class Ball {
   // TODO: your first new method goes here. Name it for what it does.
 
   mouseColor(amount) {
-    this.c = lerpColor(this.c, color(mouseX, mouseY, 120, 180), 0.02);
+    this.c = lerpColor(this.c, color(mouseX, mouseY, 120, 180), amount);
   }
 
   // TODO: your second new method goes here.
