@@ -65,13 +65,13 @@ if (dist(this.x, this.y, px, py) < this.radius)  {
     }
   }
 
-    isOnBody(mask) {
-    let px = mask.get(floor(this.x), floor(this.y)); // [r, g, b, a]
-    return px[3] < 128; // opaque = body
-  }
-
+isOnBody(mask) {
+  let flippedX = floor(width - this.x);
+  let px = mask.get(flippedX, floor(this.y));
+  return px[3] < 128;
 }
 
+}
 class FlickerBall extends Ball {
   respond(active) {
     super.respond(active);

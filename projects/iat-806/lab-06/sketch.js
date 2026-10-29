@@ -1,7 +1,7 @@
 // global variables
 
 let balls = [];
-let numBalls = 10000;
+let numBalls = 1000;
 
 let bodySegmentation;
 let video;
@@ -12,20 +12,21 @@ let options = {
 
 
 //initialize video, ml5 and canvas
-async function setup() {
+ async function setup() {
   createCanvas(1280, 960);
-  for (let i = 0; i < numBalls; i++) {
-    balls.push(createRandomBall());
-  }
-  bodySegmentation = await ml5.bodySegmentation("SelfieSegmentation", options);
 
-  video = createCapture(VIDEO);
+  // Start the camera first
+  video = createCapture(VIDEO, { flipped: true });
   video.size(width, height);
   video.hide();
 
+  for (let i = 0; i < numBalls; i++) {
+    balls.push(createRandomBall());
+  }
+
+  // Then load and start segmentation
+  bodySegmentation = await ml5.bodySegmentation("SelfieSegmentation", options);
   bodySegmentation.detectStart(video, gotResults);
-
-
 }
 
 function draw() {
