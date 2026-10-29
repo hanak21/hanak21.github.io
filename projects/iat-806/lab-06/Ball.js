@@ -71,11 +71,5 @@ isOnBody(mask) {
   return px[3] < 128;
 }
 
-}
-class FlickerBall extends Ball {
-  respond(active) {
-    super.respond(active);
-    // this.fillColor = color(0, 0, 0, 100);
-    this.changeSize(3);
-  }
+
 }
