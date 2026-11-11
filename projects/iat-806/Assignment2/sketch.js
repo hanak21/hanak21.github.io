@@ -1,46 +1,102 @@
 let handPose;
 let video;
 let predictions = [];
+let handDetectedOnce = false;
+
+let balls = []; // the 10 moving balls
+let fingertipBall; // the ball that follows your finger
+
+let lastSwitchTime = 0;
+let switchInterval = 1000; // 1000 ms = 1 second
 
 async function setup() {
-  // Create the canvas
   createCanvas(640, 480);
 
-  // Create the webcam video and match it to the canvas size
-  video = createCapture(VIDEO);
+  video = createCapture(VIDEO, { flipped: true });
   video.size(width, height);
   video.hide();
 
-  // Load the HandPose model
   print("Loading HandPose...");
-  handPose = await ml5.handPose();
+  handPose = await ml5.handPose({ flipped: true });
+  handPoseReady = true;
   console.log("HandPose loaded!");
 
-  // Start detecting hands from the webcam
   handPose.detectStart(video, gotHands);
+
+  // Create 10 random balls
+  for (let i = 0; i < 10; i++) {
+    let ballX = random(0, width);
+    let ballY = random(0, height);
+    let ballColor = color(20, 130, 200, 180);
+    let ballRadius = 20;
+
+    balls.push(new Ball(ballX, ballY, ballColor, ballRadius));
+  }
+
+  // Create the fingertip ball
+  fingertipBall = new Ball(width / 2, height / 2, color(255, 0, 0), 25);
 }
 
-// Callback function that receives new predictions
 function gotHands(results) {
   predictions = results;
+
+  // Once a hand is detected, keep this true forever
+  if (predictions.length > 0) {
+    handDetectedOnce = true;
+  }
 }
 
 function draw() {
-  // Draw the webcam feed
-  image(video, 0, 0, width, height);
 
-  // Draw the circle at the fingertip
-  drawObject();
+  // This is the Start Game state
+  if (handDetectedOnce === false) {
+    background(0);
+    textSize(32);
+    fill(255);
+    noStroke(0);
+    strokeWeight(4);
+    text("Pop the Balls!", 230, 180);
+    textSize(22);
+    text("Raise your hand to start the game.", 170, 250);
+        text("Pop 10 balls before time runs out!", 170, 280);
+    return;
+  }
+
+  image(video, 0, 0, width, height);
+  // Draw and move the 10 balls
+  for (let ball of balls) {
+    if (ball.visible) {
+      ball.change(2);
+      ball.show();
+    }
+  }
+
+  // Draw the fingertip ball
+  drawFingertipBall();
+
+  if (millis() - lastSwitchTime > switchInterval) {
+    lastSwitchTime = millis();
+    updateVisibleBalls();
+  }
 }
 
-// Draw a circle at the tip of the index finger
-function drawObject() {
+function updateVisibleBalls() {
+  for (let ball of balls) {
+    // Each ball has a 50% chance of being visible
+    ball.visible = random() < 0.5;
+  }
+}
+
+function drawFingertipBall() {
   if (predictions.length > 0) {
     let prediction = predictions[0];
-
     let tip = prediction.index_finger_tip;
 
-    noStroke();
-    ellipse(round(tip.x), round(tip.y), 33, 33);
+    // Move the fingertip ball to the finger
+    fingertipBall.x = tip.x;
+    fingertipBall.y = tip.y;
+    fingertipBall.show();
   }
+
+  // Always show it, even if no hand is detected
 }
