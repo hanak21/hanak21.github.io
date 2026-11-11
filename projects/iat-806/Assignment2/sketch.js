@@ -3,9 +3,14 @@ let video;
 let predictions = [];
 let handDetectedOnce = false;
 
+let handPoseReady = false;
 let balls = []; // the 10 moving balls
 let fingertipBall; // the ball that follows your finger
 
+
+let timerStartTime = 0;
+let timerRunning = false;
+let gameTime = 5000; // 5 seconds
 let lastSwitchTime = 0;
 let switchInterval = 1000; // 1000 ms = 1 second
 
@@ -37,23 +42,29 @@ async function setup() {
   fingertipBall = new Ball(width / 2, height / 2, color(255, 0, 0), 25);
 }
 
+
 function gotHands(results) {
   predictions = results;
 
-  // Once a hand is detected, keep this true forever
-  if (predictions.length > 0) {
+  //once hand is detected, starts camera and timer
+  if (predictions.length > 0 && timerRunning === false) {
     handDetectedOnce = true;
+    timerRunning = true;
+    timerStartTime = millis();
   }
 }
 
+
+
 function draw() {
+
 
   // This is the Start Game state
   if (handDetectedOnce === false) {
     background(0);
     textSize(32);
     fill(255);
-    noStroke(0);
+    noStroke();
     strokeWeight(4);
     text("Pop the Balls!", 230, 180);
     textSize(22);
@@ -62,8 +73,31 @@ function draw() {
     return;
   }
 
+  //timer to Game over state
+
+ if (millis() - timerStartTime >= gameTime) {
+    background(0);
+
+    fill(255);
+    noStroke();
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("Game over!", width / 2, height / 2);
+
+    return;
+  }
+
+  // Playing state
+
   image(video, 0, 0, width, height);
+
+  
+
+  drawTimer();
+
+
   // Draw and move the 10 balls
+  
   for (let ball of balls) {
     if (ball.visible) {
       ball.change(2);
@@ -92,11 +126,23 @@ function drawFingertipBall() {
     let prediction = predictions[0];
     let tip = prediction.index_finger_tip;
 
-    // Move the fingertip ball to the finger
     fingertipBall.x = tip.x;
     fingertipBall.y = tip.y;
-    fingertipBall.show();
   }
 
-  // Always show it, even if no hand is detected
+  fingertipBall.show();
+}
+
+
+
+
+function drawTimer() {
+  let timePassed = millis() - timerStartTime;
+  let secondsLeft = ceil((gameTime - timePassed) / 1000);
+
+  fill(255);
+  noStroke();
+  textSize(32);
+  textAlign(LEFT, TOP);
+  text(secondsLeft, 20, 30);
 }
