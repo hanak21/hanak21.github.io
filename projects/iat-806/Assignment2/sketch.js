@@ -7,12 +7,17 @@ let handPoseReady = false;
 let balls = []; // the 10 moving balls
 let fingertipBall; // the ball that follows your finger
 
-
 let timerStartTime = 0;
 let timerRunning = false;
-let gameTime = 5000; // 5 seconds
+let gameTime = 10000; // 10 seconds
 let lastSwitchTime = 0;
 let switchInterval = 1000; // 1000 ms = 1 second
+
+//count number of balls popped
+let ballsPopped = 0;
+
+// add sound
+let soundPop;
 
 async function setup() {
   createCanvas(640, 480);
@@ -40,8 +45,10 @@ async function setup() {
 
   // Create the fingertip ball
   fingertipBall = new Ball(width / 2, height / 2, color(255, 0, 0), 25);
-}
 
+  // load sound
+  soundPop = await loadSound("sounds/bubblePop.mp3");
+}
 
 function gotHands(results) {
   predictions = results;
@@ -54,11 +61,7 @@ function gotHands(results) {
   }
 }
 
-
-
 function draw() {
-
-
   // This is the Start Game state
   if (handDetectedOnce === false) {
     background(0);
@@ -68,21 +71,29 @@ function draw() {
     strokeWeight(4);
     text("Pop the Balls!", 230, 180);
     textSize(22);
-    text("Raise your hand to start the game.", 170, 250);
-        text("Pop 10 balls before time runs out!", 170, 280);
+    text("You have 10 seconds once the game starts.", 120, 250);
+    text(
+      "Using your index finger, pop 10 balls before time runs out!",
+      50,
+      280,
+    );
+    text("Raise a hand to start the game.", 180, 320);
     return;
   }
 
   //timer to Game over state
 
- if (millis() - timerStartTime >= gameTime) {
+  if (millis() - timerStartTime >= gameTime) {
     background(0);
 
     fill(255);
     noStroke();
     textSize(32);
     textAlign(CENTER, CENTER);
-    text("Game over!", width / 2, height / 2);
+    text("Game over.", width / 2, height / 2);
+    text("Balls popped: " + ballsPopped, 320, 280);
+    textSize(26);
+    text("Good work!", 320, 320);
 
     return;
   }
@@ -91,13 +102,11 @@ function draw() {
 
   image(video, 0, 0, width, height);
 
-  
-
   drawTimer();
-
+  drawBallCounter();
 
   // Draw and move the 10 balls
-  
+
   for (let ball of balls) {
     if (ball.visible) {
       ball.change(2);
@@ -108,10 +117,42 @@ function draw() {
   // Draw the fingertip ball
   drawFingertipBall();
 
+  //ensure checkPop is called
+  checkPop();
+
   if (millis() - lastSwitchTime > switchInterval) {
     lastSwitchTime = millis();
     updateVisibleBalls();
   }
+}
+
+function checkPop() {
+  for (let i = balls.length - 1; i >= 0; i--) {
+    let ball = balls[i];
+
+    if (ball.visible === false) {
+      continue;
+    }
+
+    let distance = dist(fingertipBall.x, fingertipBall.y, ball.x, ball.y);
+
+    let fingertipRadius = fingertipBall.r / 2;
+    let bubbleRadius = ball.r / 2;
+
+    if (distance < fingertipRadius + bubbleRadius) {
+      balls.splice(i, 1);
+      ballsPopped++;
+      soundPop.play();
+    }
+  }
+}
+
+function drawBallCounter() {
+  fill(255);
+  noStroke();
+  textSize(32);
+  textAlign(LEFT, TOP);
+  text("Balls popped: " + ballsPopped, 20, 70);
 }
 
 function updateVisibleBalls() {
@@ -133,9 +174,6 @@ function drawFingertipBall() {
   fingertipBall.show();
 }
 
-
-
-
 function drawTimer() {
   let timePassed = millis() - timerStartTime;
   let secondsLeft = ceil((gameTime - timePassed) / 1000);
@@ -144,5 +182,5 @@ function drawTimer() {
   noStroke();
   textSize(32);
   textAlign(LEFT, TOP);
-  text(secondsLeft, 20, 30);
+  text("Time left: " + secondsLeft, 20, 30);
 }
