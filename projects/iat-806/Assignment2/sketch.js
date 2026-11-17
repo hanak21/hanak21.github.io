@@ -21,6 +21,7 @@ let soundPop;
 
 async function setup() {
   createCanvas(640, 480);
+  pixelDensity(1);
 
   video = createCapture(VIDEO, { flipped: true });
   video.size(width, height);
@@ -34,7 +35,7 @@ async function setup() {
   handPose.detectStart(video, gotHands);
 
   // Create 10 random balls
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 7; i++) {
     let ballX = random(0, width);
     let ballY = random(0, height);
     let ballColor = color(20, 130, 200, 180);
@@ -60,7 +61,6 @@ function gotHands(results) {
     timerStartTime = millis();
   }
 }
-
 function draw() {
   // This is the Start Game state
   if (handDetectedOnce === false) {
@@ -69,15 +69,15 @@ function draw() {
     fill(255);
     noStroke();
     strokeWeight(4);
-    text("Pop the Balls!", 230, 180);
+    text("Pop the Bubbles!", 210, 180);
     textSize(22);
     text("You have 10 seconds once the game starts.", 120, 250);
+      textSize(20);
     text(
-      "Using your index finger, pop 10 balls before time runs out!",
-      50,
-      280,
-    );
-    text("Raise a hand to start the game.", 180, 320);
+      "Using your index finger, pop 10 bubbles before time runs out!", 60, 280);
+    text("Raise a hand to start the game.", 190, 320);
+     textSize(15);
+      text("Turn on sound to hear the bubbles pop.", 200, 350);
     return;
   }
 
