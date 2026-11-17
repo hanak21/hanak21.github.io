@@ -34,8 +34,8 @@ async function setup() {
 
   handPose.detectStart(video, gotHands);
 
-  // Create 10 random balls
-  for (let i = 0; i < 7; i++) {
+  // Create  random balls
+  for (let i = 0; i < 30; i++) {
     let ballX = random(0, width);
     let ballY = random(0, height);
     let ballColor = color(20, 130, 200, 180);
