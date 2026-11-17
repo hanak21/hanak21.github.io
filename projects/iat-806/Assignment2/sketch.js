@@ -5,18 +5,18 @@ let handDetectedOnce = false;
 
 let handPoseReady = false;
 let balls = []; // the 10 moving balls
-let fingertipBall; // the ball that follows your finger
+let fingertipBall; // the index ball
 
 let timerStartTime = 0;
 let timerRunning = false;
 let gameTime = 10000; // 10 seconds
 let lastSwitchTime = 0;
-let switchInterval = 1000; // 1000 ms = 1 second
+let switchInterval = 1000; // 1000 ms is 1 second
 
-//count number of balls popped
+//counts number of balls popped
 let ballsPopped = 0;
 
-// add sound
+// adds sound
 let soundPop;
 
 async function setup() {
@@ -47,7 +47,7 @@ async function setup() {
   // Create the fingertip ball
   fingertipBall = new Ball(width / 2, height / 2, color(255, 0, 0), 25);
 
-  // load sound
+  // loads sound
   soundPop = await loadSound("sounds/bubblePop.mp3");
 }
 
